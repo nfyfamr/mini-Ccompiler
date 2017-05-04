@@ -4,11 +4,37 @@
 #include <ctype.h>
 #include "../include/minic-pgs.h"
 
+struct tokenType scanner();
 void lexicalError(int n);
 int superLetter(char ch);
 int superLetterOrDigit(char ch);
 int getIntNum(char firstCharacter);
 int hexValue(char ch);
+
+int main(int argc, char** argv)
+{
+	struct tokenType token;
+
+	printf("----------  minic-pgs  ----------\n");
+	do
+	{
+		token = scanner();
+		switch (token.number)
+		{
+			case tident:
+				printf("token number: %d(identifier)\nidentifier name: %s\n", token.number, token.value.id);
+				break;
+			case tnumber:
+				printf("token number: %d(integer value)\nvalue: %d\n", token.number, token.value.num);
+				break;
+			default:
+				printf("token number: %d\n", token.number);
+		}
+		printf("\n");
+	} while (token.number != teof);
+
+	return 0;
+}
 
 struct tokenType scanner()
 {
@@ -22,13 +48,14 @@ struct tokenType scanner()
 		while (isspace(ch = getchar()));	// state 1: skip blanks
 
 		if (superLetter(ch)) {				// identifier or keyword
+
 			i = 0;
 			do {
 				if (i < ID_LENGTH) id[i++] = ch;
 				ch = getchar();
 			} while (superLetterOrDigit(ch));
-
 			if (i >= ID_LENGTH) lexicalError(1);
+
 			id[i] = '\0';
 			ungetc(ch, stdin);				// retract
 
@@ -249,6 +276,7 @@ void lexicalError(int n)
 }
 
 
+// checks if ch is alphabet or underscore(_)
 int superLetter(char ch)
 {
 	if (isalpha(ch) || ch == '_')
@@ -258,13 +286,16 @@ int superLetter(char ch)
 }
 
 
+// checks if ch is alphanumeric or underscore
 int superLetterOrDigit(char ch)
 {
+	// isalnum(int c) checks if the passed character is alphanumeric
 	if (isalnum(ch) || ch == '_')
 		return 1;
 	else
 		return 0;
 }
+
 
 int getIntNum(char firstCharacter)
 {
