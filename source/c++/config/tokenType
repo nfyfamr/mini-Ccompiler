@@ -1,0 +1,46 @@
+// tsymbol type, represents the token number
+// special symbols
+tnull			-1
+tnot			// 0
+tnotequ
+tmod
+tmodAssign
+tident
+tnumber
+tand
+tlparen
+trparen
+tmul
+tmulAssign		// 10
+tplus
+tinc
+taddAssign
+tcomma
+tminus
+tdec
+tsubAssign
+tdiv
+tdivAssign
+tsemicolon		// 20
+tless
+tlesse
+tassign
+tequal
+tgreat
+tgreate
+tlbracket
+trbracket
+teof
+
+// keyord symbols
+// A keyord symbol has prefixed '_'
+_const			// 30
+_else
+_if
+_int
+_return
+_void
+_while
+_lbrace
+_or
+_rbrace
